@@ -23,10 +23,10 @@ RUN         dpkg --add-architecture i386 \
                 lib32z1 \
                 libssl3:i386 \
                 # SourceMod MySQL extension (dbi.mysql.ext.so) is 32-bit and needs
-                # the MariaDB/MySQL client library to connect to databases.
-                # libmariadb-dev-compat provides libmysqlclient.so compat symlink.
-                libmariadb3:i386 \
-                libmariadb-dev-compat:i386 \
+                # the MySQL client library to connect to databases.
+                # libmysqlclient-dev provides the libmysqlclient.so compat symlink.
+                libmysqlclient21:i386 \
+                libmysqlclient-dev:i386 \
             && apt-get clean \
             && rm -rf /var/lib/apt/lists/*
 
