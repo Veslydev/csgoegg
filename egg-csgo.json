@@ -1,132 +1,177 @@
 {
-    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PELICAN PANEL - PTERODACTYL EXPORT",
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PANEL",
     "meta": {
-        "version": "PTDL_v2",
-        "update_url": null
+        "version": "PLCN_v3",
+        "update_url": "https://raw.githubusercontent.com/Veslydev/csgoegg/refs/heads/main/egg-csgo.json"
     },
-    "exported_at": "2026-03-10T00:00:00+00:00",
+    "exported_at": "2026-03-10T19:59:21+00:00",
     "name": "Counter-Strike: Global Offensive",
     "author": "admin@example.com",
-    "description": "Counter-Strike: Global Offensive (App 4465480) dedicated server — original Source engine build, SourceMod/MetaMod compatible. Supports Casual, Competitive, Arms Race, Demolition, Deathmatch, and custom game modes. Includes 32-bit libs needed for SourceMod database (MySQL/MariaDB) plugins.",
+    "uuid": "fd4e1faf-38ad-44a0-8a31-222f679151fc",
+    "description": "Counter-Strike: Global Offensive (App 4465480) dedicated server \u2014 original Source engine build, SourceMod/MetaMod compatible. Supports Casual, Competitive, Arms Race, Demolition, Deathmatch, and custom game modes. Includes 32-bit libs needed for SourceMod database (MySQL/MariaDB) plugins.",
+    "image": null,
+    "tags": [],
     "features": [],
     "docker_images": {
         "ghcr.io/veslydev/csgoegg:latest": "ghcr.io/veslydev/csgoegg:latest"
     },
     "file_denylist": [],
-    "startup": "bash srcds_run -game csgo -usercon -strictportbind -ip 0.0.0.0 -port {{SERVER_PORT}} +clientport {{CLIENT_PORT}} +tv_port {{TV_PORT}} +map {{DEFAULT_MAP}} -maxplayers_override {{MAX_PLAYERS}} +sv_setsteamaccount {{SRCDS_TOKEN}} -tickrate {{TICK_RATE}} +mapgroup {{MAP_GROUP}} +game_mode {{GAME_MODE}} +game_type {{GAME_TYPE}} -net_port_try 1 -norestart +sv_allowdownload 1 +sv_allowupload 1",
+    "startup_commands": {
+        "Default": "bash srcds_run -game csgo -usercon -strictportbind -ip 0.0.0.0 -port {{SERVER_PORT}} +clientport {{CLIENT_PORT}} +tv_port {{TV_PORT}} +map {{DEFAULT_MAP}} -maxplayers_override {{MAX_PLAYERS}} +sv_setsteamaccount {{SRCDS_TOKEN}} -tickrate {{TICK_RATE}} +mapgroup {{MAP_GROUP}} +game_mode {{GAME_MODE}} +game_type {{GAME_TYPE}} -net_port_try 1 -norestart +sv_allowdownload 1 +sv_allowupload 1"
+    },
     "config": {
         "files": "{}",
-        "startup": "{\"done\": \"VAC secure mode is activated\"}",
+        "startup": "{\n    \"done\": \"VAC secure mode is activated\"\n}",
         "logs": "{}",
         "stop": "exit"
     },
     "scripts": {
         "installation": {
-            "script": "#!/bin/bash\n# CS:GO Dedicated Server — Pelican Panel Install Script\n# App ID: 740 (CS:GO dedicated server — Source engine, SourceMod compatible)\n# Game Steam page: https://store.steampowered.com/app/4465480/CounterStrikeGlobal_Offensive/\n\ncd /mnt/server\n\napt-get update -y\napt-get install -y lib32gcc-s1 lib32stdc++6 lib32z1 curl ca-certificates\n\necho \"Downloading SteamCMD...\"\nmkdir -p /mnt/server/steamcmd\ncurl -sqL \"https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz\" | tar zxvf - -C /mnt/server/steamcmd\n\necho \"Installing CS:GO dedicated server (App 740)...\"\n/mnt/server/steamcmd/steamcmd.sh \\\n    +force_install_dir /mnt/server \\\n    +login anonymous \\\n    +app_update 740 validate \\\n    +quit\n\nif [ $? -ne 0 ]; then\n    echo \"SteamCMD failed. Retrying once...\"\n    /mnt/server/steamcmd/steamcmd.sh \\\n        +force_install_dir /mnt/server \\\n        +login anonymous \\\n        +app_update 740 validate \\\n        +quit\nfi\n\necho \"\"\necho \"CS:GO dedicated server installation complete!\"",
+            "script": "#!/bin/bash\n# CS:GO Dedicated Server \u2014 Pelican Panel Install Script\n# App ID: 740 (CS:GO dedicated server \u2014 Source engine, SourceMod compatible)\n# Game Steam page: https://store.steampowered.com/app/4465480/CounterStrikeGlobal_Offensive/\n\ncd /mnt/server\n\napt-get update -y\napt-get install -y lib32gcc-s1 lib32stdc++6 lib32z1 curl ca-certificates\n\necho \"Downloading SteamCMD...\"\nmkdir -p /mnt/server/steamcmd\ncurl -sqL \"https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz\" | tar zxvf - -C /mnt/server/steamcmd\n\necho \"Installing CS:GO dedicated server (App 740)...\"\n/mnt/server/steamcmd/steamcmd.sh \\\n    +force_install_dir /mnt/server \\\n    +login anonymous \\\n    +app_update 740 validate \\\n    +quit\n\nif [ $? -ne 0 ]; then\n    echo \"SteamCMD failed. Retrying once...\"\n    /mnt/server/steamcmd/steamcmd.sh \\\n        +force_install_dir /mnt/server \\\n        +login anonymous \\\n        +app_update 740 validate \\\n        +quit\nfi\n\necho \"\"\necho \"CS:GO dedicated server installation complete!\"",
             "container": "ghcr.io/pelican-eggs/installers:debian",
             "entrypoint": "bash"
         }
     },
     "variables": [
         {
+            "sort": 1,
             "name": "Steam Game Server Login Token",
-            "description": "Your GSLT (Game Server Login Token) from https://steamcommunity.com/dev/managegameservers — required for public VAC-secured servers. Leave empty for LAN/private play.",
+            "description": "Your GSLT (Game Server Login Token) from https://steamcommunity.com/dev/managegameservers \u2014 required for public VAC-secured servers. Leave empty for LAN/private play.",
             "env_variable": "SRCDS_TOKEN",
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "nullable|string|max:64",
-            "field_type": "text"
+            "rules": [
+                "nullable",
+                "string",
+                "max:64"
+            ]
         },
         {
+            "sort": 2,
             "name": "Default Map",
             "description": "The map the server loads on startup. Examples: de_dust2, de_mirage, de_inferno, de_nuke, cs_office.",
             "env_variable": "DEFAULT_MAP",
             "default_value": "de_dust2",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string|max:64",
-            "field_type": "text"
+            "rules": [
+                "required",
+                "string",
+                "max:64"
+            ]
         },
         {
+            "sort": 3,
             "name": "Max Players",
             "description": "Maximum number of players allowed on the server at one time.",
             "env_variable": "MAX_PLAYERS",
             "default_value": "36",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|numeric|between:1,64",
-            "field_type": "text"
+            "rules": [
+                "required",
+                "numeric",
+                "between:1,64"
+            ]
         },
         {
+            "sort": 4,
             "name": "Tick Rate",
             "description": "Server tick rate. Use 64 for casual/standard play, 128 for competitive/high-performance. Higher tick rate increases CPU usage.",
             "env_variable": "TICK_RATE",
             "default_value": "128",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|numeric|in:64,128",
-            "field_type": "text"
+            "rules": [
+                "required",
+                "numeric",
+                "in:64,128"
+            ]
         },
         {
+            "sort": 5,
             "name": "Game Type",
             "description": "Server game type. 0 = Classic (Casual/Competitive), 1 = Gun Game (Arms Race/Demolition/Deathmatch), 2 = Training, 3 = Custom.",
             "env_variable": "GAME_TYPE",
             "default_value": "0",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|numeric|in:0,1,2,3",
-            "field_type": "text"
+            "rules": [
+                "required",
+                "numeric",
+                "in:0,1,2,3"
+            ]
         },
         {
+            "sort": 6,
             "name": "Game Mode",
             "description": "Server game mode, paired with Game Type. Type 0: 0=Casual, 1=Competitive, 2=Wingman. Type 1: 0=Arms Race, 1=Demolition, 2=Deathmatch. Type 3: 0=Custom.",
             "env_variable": "GAME_MODE",
             "default_value": "1",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|numeric|between:0,6",
-            "field_type": "text"
+            "rules": [
+                "required",
+                "numeric",
+                "between:0,6"
+            ]
         },
         {
+            "sort": 7,
             "name": "Map Group",
             "description": "Map group / rotation for +mapgroup. Examples: mg_active, mg_bomb, mg_hostage, mg_armsrace, mg_demolition, mg_deathmatch. Use mg_active for the active duty pool.",
             "env_variable": "MAP_GROUP",
             "default_value": "mg_active",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|string|max:64",
-            "field_type": "text"
+            "rules": [
+                "required",
+                "string",
+                "max:64"
+            ]
         },
         {
+            "sort": 8,
             "name": "Client Port",
             "description": "Port used for client-to-server connections. Usually SERVER_PORT + 1.",
             "env_variable": "CLIENT_PORT",
             "default_value": "27016",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|numeric|between:1024,65535",
-            "field_type": "text"
+            "rules": [
+                "required",
+                "numeric",
+                "between:1024,65535"
+            ]
         },
         {
+            "sort": 9,
             "name": "GOTV Port",
             "description": "Port used for GOTV (SourceTV) spectator broadcasting. Usually SERVER_PORT + 2.",
             "env_variable": "TV_PORT",
             "default_value": "27017",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|numeric|between:1024,65535",
-            "field_type": "text"
+            "rules": [
+                "required",
+                "numeric",
+                "between:1024,65535"
+            ]
         },
         {
+            "sort": 10,
             "name": "Additional Arguments",
             "description": "Any extra command-line arguments to append to the startup command. Example: +sv_lan 1 +sv_password mypassword",
             "env_variable": "ADDITIONAL_ARGS",
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "nullable|string|max:512",
-            "field_type": "text"
+            "rules": [
+                "nullable",
+                "string",
+                "max:512"
+            ]
         }
     ]
 }
