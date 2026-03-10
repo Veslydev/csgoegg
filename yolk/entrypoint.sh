@@ -36,15 +36,20 @@ if [ -d /home/container/csgo/addons/metamod ]; then
     "file"  "addons/metamod/bin/server"
 }
 VDFEOF
+    # Remove 64-bit binaries so srcds never tries to dlopen them
+    rm -rf /home/container/csgo/addons/metamod/bin/linux64
 fi
 
 # ── Fix SDR relay mode ────────────────────────────────────────────────────────
 # srcds_run sets SDR_LISTEN_PORT internally. Without SDR_CERT/SDR_PRIVATE_KEY
 # this forces SDR relay mode and breaks Steam authentication in containers.
-# Export empty value so child processes inherit it even if srcds_run tries to set it.
+# Export empty value AND patch srcds_run to comment out its internal reassignment.
 export SDR_LISTEN_PORT=
 export SDR_CERT=
 export SDR_PRIVATE_KEY=
+if [ -f /home/container/srcds_run ]; then
+    sed -i 's/^\(\s*export SDR_LISTEN_PORT=\)/#\1/' /home/container/srcds_run
+fi
 
 # ── Launch ────────────────────────────────────────────────────────────────────
 # Replace Pelican {{VAR}} placeholders with shell ${VAR} equivalents, then eval-expand them
