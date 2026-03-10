@@ -13,7 +13,7 @@
         "ghcr.io/veslydev/csgoegg:latest": "ghcr.io/veslydev/csgoegg:latest"
     },
     "file_denylist": [],
-    "startup": "bash srcds_run -game csgo -usercon -strictportbind -ip {{SERVER_IP}} -port {{SERVER_PORT}} +clientport {{CLIENT_PORT}} +tv_port {{TV_PORT}} +map {{DEFAULT_MAP}} -maxplayers_override {{MAX_PLAYERS}} +sv_setsteamaccount {{SRCDS_TOKEN}} -tickrate {{TICK_RATE}} +mapgroup {{MAP_GROUP}} +game_mode {{GAME_MODE}} +game_type {{GAME_TYPE}} -net_port_try 1 -norestart +sv_allowdownload 1 +sv_allowupload 1",
+    "startup": "bash srcds_run -game csgo -usercon -strictportbind -ip 0.0.0.0 -port {{SERVER_PORT}} +clientport {{CLIENT_PORT}} +tv_port {{TV_PORT}} +map {{DEFAULT_MAP}} -maxplayers_override {{MAX_PLAYERS}} +sv_setsteamaccount {{SRCDS_TOKEN}} -tickrate {{TICK_RATE}} +mapgroup {{MAP_GROUP}} +game_mode {{GAME_MODE}} +game_type {{GAME_TYPE}} -net_port_try 1 -norestart +sv_allowdownload 1 +sv_allowupload 1",
     "config": {
         "files": "{}",
         "startup": "{\"done\": \"VAC secure mode is activated\"}",
