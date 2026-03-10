@@ -20,8 +20,7 @@ RUN         dpkg --add-architecture i386 \
                 lib32gcc-s1 lib32stdc++6 \
                 libsdl2-2.0-0 libsdl2-2.0-0:i386 \
                 libncurses5:i386 \
-                lib32z1 lib32z1:i386 \
-                libmariadb3:i386 \
+                lib32z1 \
                 libssl3:i386 \
             && apt-get clean \
             && rm -rf /var/lib/apt/lists/*
