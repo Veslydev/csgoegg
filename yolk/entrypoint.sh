@@ -11,6 +11,10 @@ if [ ! -f /home/container/.steam/sdk32/steamclient.so ]; then
     ln -sf /home/container/linux32/steamclient.so /home/container/.steam/sdk32/steamclient.so
 fi
 
+# srcds_run sets SDR_LISTEN_PORT internally. Without SDR_CERT/SDR_PRIVATE_KEY this
+# forces SDR relay mode and breaks Steam authentication in containers. Unset it.
+unset SDR_LISTEN_PORT
+
 # Replace Pelican {{VAR}} placeholders with shell ${VAR} equivalents, then eval-expand them
 MODIFIED_STARTUP=$(eval echo "$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g')")
 
