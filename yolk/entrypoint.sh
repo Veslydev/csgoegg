@@ -51,6 +51,13 @@ if [ -f /home/container/srcds_run ]; then
     sed -i 's/^\(\s*export SDR_LISTEN_PORT=\)/#\1/' /home/container/srcds_run
 fi
 
+# ── Fix BotProfile.db 'Rank' attribute ────────────────────────────────────
+# CS:GO's engine doesn't recognise the 'Rank' attribute, causing harmless but
+# noisy parse errors. Strip those lines so the console stays clean.
+if [ -f /home/container/csgo/botprofile.db ]; then
+    sed -i '/^\s*Rank\b/Id' /home/container/csgo/botprofile.db
+fi
+
 # ── Launch ────────────────────────────────────────────────────────────────────
 # Replace Pelican {{VAR}} placeholders with shell ${VAR} equivalents, then eval-expand them
 MODIFIED_STARTUP=$(eval echo "$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g')")
