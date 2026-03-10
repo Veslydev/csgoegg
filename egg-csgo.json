@@ -90,9 +90,9 @@
         },
         {
             "name": "Map Group",
-            "description": "Map group / rotation. Used with +mapgroup. Default is 1.",
+            "description": "Map group / rotation for +mapgroup. Examples: mg_active, mg_bomb, mg_hostage, mg_armsrace, mg_demolition, mg_deathmatch. Use mg_active for the active duty pool.",
             "env_variable": "MAP_GROUP",
-            "default_value": "1",
+            "default_value": "mg_active",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:64",
