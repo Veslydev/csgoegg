@@ -22,6 +22,7 @@ RUN         dpkg --add-architecture i386 \
                 libncurses5:i386 \
                 lib32z1 \
                 libssl3:i386 \
+                libmariadb-dev:i386 \
             && apt-get clean \
             && rm -rf /var/lib/apt/lists/*
 
